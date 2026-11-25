@@ -1,0 +1,200 @@
+{
+  "clusters": [
+    {
+      "name": "意志与行动",
+      "en": "Will & Action",
+      "color": "#5eead4",
+      "desc": "起意、推动、阻碍与协作——改变事物走向的动词星群。",
+      "landmarks": [
+        "persuade",
+        "strive",
+        "resist",
+        "enable",
+        "encourage",
+        "abandon"
+      ]
+    },
+    {
+      "name": "身体与衣饰",
+      "en": "Body & Attire",
+      "color": "#fda4af",
+      "desc": "身体部位、衣物与动作，最具体可感的一簇日常词。",
+      "landmarks": [
+        "shoulder",
+        "shirt",
+        "glove",
+        "neck",
+        "leg",
+        "sleeve"
+      ]
+    },
+    {
+      "name": "场所与旅途",
+      "en": "Place & Passage",
+      "color": "#7dd3fc",
+      "desc": "方位、场所与出行；从街角到海岸的空间词。",
+      "landmarks": [
+        "harbor",
+        "suburb",
+        "coast",
+        "road",
+        "tunnel",
+        "journey"
+      ]
+    },
+    {
+      "name": "逻辑与思辨",
+      "en": "Logic & Thought",
+      "color": "#c4b5fd",
+      "desc": "定义、推理、证据与视角——抽象思维的骨架。",
+      "landmarks": [
+        "logic",
+        "theory",
+        "evidence",
+        "argument",
+        "analysis",
+        "hypothesis"
+      ]
+    },
+    {
+      "name": "言说与治理",
+      "en": "Speech & Governance",
+      "color": "#f9a8d4",
+      "desc": "陈述、请求、答复与书信，也容纳政府与公共事务的词汇。",
+      "landmarks": [
+        "statement",
+        "government",
+        "policy",
+        "letter",
+        "request",
+        "parliament"
+      ]
+    },
+    {
+      "name": "技术与机械",
+      "en": "Technology & Machine",
+      "color": "#93c5fd",
+      "desc": "光、电、机械与传输；工程与技术的零件库。",
+      "landmarks": [
+        "laser",
+        "engine",
+        "device",
+        "circuit",
+        "software",
+        "computer"
+      ]
+    },
+    {
+      "name": "情绪与立场",
+      "en": "Emotion & Conviction",
+      "color": "#fb7185",
+      "desc": "爱恨、羞耻、信念与道德判断，也容纳战争与公共立场的词。",
+      "landmarks": [
+        "grief",
+        "anger",
+        "courage",
+        "despair",
+        "fear",
+        "hatred"
+      ]
+    },
+    {
+      "name": "亲缘与陪伴",
+      "en": "Kin & Company",
+      "color": "#fcd34d",
+      "desc": "亲属、伴侣与同伴，编织社会关系的称谓。",
+      "landmarks": [
+        "family",
+        "friend",
+        "mother",
+        "father",
+        "brother",
+        "marriage"
+      ]
+    },
+    {
+      "name": "自我与对话",
+      "en": "Self & Dialogue",
+      "color": "#bef264",
+      "desc": "思考、感受与自我指称，口语感最强的一簇。",
+      "landmarks": [
+        "think",
+        "feel",
+        "maybe",
+        "know",
+        "perhaps",
+        "want"
+      ]
+    },
+    {
+      "name": "经济与增长",
+      "en": "Economy & Growth",
+      "color": "#34d399",
+      "desc": "收入、价格、增长与衰退；经济运行的词。",
+      "landmarks": [
+        "revenue",
+        "profit",
+        "inflation",
+        "growth",
+        "economy",
+        "debt"
+      ]
+    },
+    {
+      "name": "艺术与想象",
+      "en": "Art & Imagination",
+      "color": "#e879f9",
+      "desc": "音乐、电影、文学与美，审美经验的汇聚。",
+      "landmarks": [
+        "poetry",
+        "music",
+        "film",
+        "fiction",
+        "art",
+        "artist"
+      ]
+    },
+    {
+      "name": "学问与职业",
+      "en": "Learning & Vocation",
+      "color": "#fbbf24",
+      "desc": "校园、学术与职业身份，知识生产的现场。",
+      "landmarks": [
+        "academic",
+        "graduate",
+        "faculty",
+        "university",
+        "student",
+        "education"
+      ]
+    },
+    {
+      "name": "饮食与滋味",
+      "en": "Food & Flavor",
+      "color": "#fb923c",
+      "desc": "食材、烹饪与味道，最富感官联想的词群。",
+      "landmarks": [
+        "bread",
+        "butter",
+        "coffee",
+        "sauce",
+        "cheese",
+        "cream"
+      ]
+    },
+    {
+      "name": "疾病与疗愈",
+      "en": "Illness & Healing",
+      "color": "#22d3ee",
+      "desc": "疾病、症状与身体器官；健康主题的坐标。",
+      "landmarks": [
+        "disease",
+        "cancer",
+        "virus",
+        "illness",
+        "infection",
+        "doctor"
+      ]
+    }
+  ]
+}

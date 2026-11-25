@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#03050b" />
+    <meta name="description" content="词穹 Word Cosmos：考研英语 5500 词的 3D 语义知识图谱。进入由 GloVe 向量与 UMAP 投影构成的词义星云，自由飞行、探索与学习。" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <title>词穹 Word Cosmos · 考研英语 5500 3D 语义图谱</title>
+  </head>
+  <body class="is-loading">
+    <div id="app">
+      <canvas id="scene" aria-label="考研英语 5500 词的 3D 语义星图。拖动环视，滚轮潜入，点击词语查看详情。"></canvas>
+      <div class="vignette" aria-hidden="true"></div>
+      <div class="grain" aria-hidden="true"></div>
+      <div class="hud-frame" aria-hidden="true">
+        <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+        <span class="crosshair"></span>
+      </div>
+      <div id="labels" class="labels"></div>
+
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="词穹首页">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 46 46" fill="none">
+              <circle cx="23" cy="23" r="18.5" stroke="currentColor" stroke-opacity=".28"/>
+              <ellipse cx="23" cy="23" rx="19" ry="7.5" stroke="currentColor" stroke-opacity=".62" transform="rotate(-26 23 23)"/>
+              <ellipse cx="23" cy="23" rx="19" ry="7.5" stroke="currentColor" stroke-opacity=".32" transform="rotate(38 23 23)"/>
+              <circle cx="23" cy="23" r="3.1" fill="currentColor"/>
+              <circle cx="38.4" cy="14.2" r="1.8" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="brand-text">
+            <span class="brand-kicker">WORD COSMOS <em>/</em> 考研英语 5500</span>
+            <span class="brand-title">词穹 <span class="brand-sub">语义图谱</span></span>
+          </span>
+        </a>
+
+        <div class="top-actions">
+          <div class="search" id="searchBox">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M16 16l4.2 4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input id="searchInput" type="search" autocomplete="off" spellcheck="false" placeholder="搜索单词 / 中文释义" aria-label="搜索单词或中文释义" />
+            <kbd class="search-kbd">/</kbd>
+            <div id="searchResults" class="search-results" role="listbox"></div>
+          </div>
+          <button class="round-btn" id="randomBtn" title="随机漫游 (R)" aria-label="随机漫游">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.8l1.9 5.4 5.5 1.9-5.5 1.9-1.9 5.5-1.9-5.5L4.6 10l5.5-1.9L12 2.8z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M18.6 16.1l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2z" fill="currentColor" fill-opacity=".7"/></svg>
+          </button>
+          <button class="round-btn mobile-only" id="clusterToggle" title="语义星群" aria-label="打开语义星群列表">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="6" cy="7" r="1.7" fill="currentColor"/><circle cx="6" cy="12" r="1.7" fill="currentColor"/><circle cx="6" cy="17" r="1.7" fill="currentColor"/><path d="M10 7h9M10 12h9M10 17h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </button>
+          <button class="round-btn" id="helpBtn" title="探索指南 (?)" aria-label="打开探索指南">
+            <span class="question">?</span>
+          </button>
+        </div>
+      </header>
+
+      <aside class="constellation-panel" id="constellationPanel" aria-label="语义星群列表">
+        <div class="panel-kicker"><span class="pulse-dot"></span> SEMANTIC CONSTELLATIONS</div>
+        <div class="panel-title-row">
+          <h2>语义星群</h2>
+          <span class="tiny-badge">14</span>
+        </div>
+        <p class="panel-desc">由 100 维词向量自动聚成的词义区域。点击跃迁。</p>
+        <div id="clusterList" class="cluster-list" role="list"></div>
+        <button class="reset-btn" id="resetClusters">
+          <span>回到全景</span>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 16L16 8M16 8H9M16 8v7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="panel-foot">k-means · k=14 · 100D space</div>
+      </aside>
+
+      <aside class="detail-panel" id="detailPanel" aria-live="polite" aria-label="词语详情">
+        <button class="detail-close" id="detailClose" aria-label="关闭详情">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div id="detailContent"></div>
+      </aside>
+
+      <div class="bottom-dock">
+        <div class="nav-hint" aria-hidden="true">
+          <span class="hint-group"><i class="mouse"></i> 拖着看</span>
+          <span class="sep">·</span>
+          <span class="hint-group">滚轮潜入</span>
+          <span class="sep">·</span>
+          <span class="hint-group"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 飞行</span>
+        </div>
+
+        <div class="projection-wrap">
+          <div class="projection-switch" role="group" aria-label="投影方式">
+            <span class="switch-glider"></span>
+            <button class="proj-btn is-active" data-projection="umap" aria-pressed="true">
+              <b>UMAP</b><small>拓扑</small>
+            </button>
+            <button class="proj-btn" data-projection="pca" aria-pressed="false">
+              <b>PCA</b><small>线性</small>
+            </button>
+          </div>
+          <div class="projection-meta" id="projectionMeta">局部邻域保持 · 10-NN 28.2%</div>
+        </div>
+
+        <div class="dock-right">
+          <div class="word-count"><b id="wordCount">5,500</b><span>WORDS</span></div>
+          <button class="mini-link" id="aboutLink">关于图谱</button>
+        </div>
+      </div>
+
+      <div id="hoverTip" class="hover-tip" role="tooltip"></div>
+      <div id="toast" class="toast" role="status"></div>
+    </div>
+
+    <dialog id="helpDialog" class="help-dialog">
+      <button class="dialog-close" id="helpClose" aria-label="关闭指南">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="dialog-kicker">FIELD GUIDE / 01</div>
+      <h2>如何漫游词穹</h2>
+      <p class="dialog-lead">这里不是一张平面图。5,500 个词按语义远近漂浮在三维空间中，意思越近，靠得越紧。</p>
+
+      <div class="guide-grid">
+        <div class="guide-row"><span class="guide-icon">↔</span><div><b>环视</b><p>按住鼠标拖动，改变视线方向。</p></div></div>
+        <div class="guide-row"><span class="guide-icon">⇣</span><div><b>潜入</b><p>滚动滚轮向前后移动；<kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 自由飞行，<kbd>Q</kbd><kbd>E</kbd> 升降。</p></div></div>
+        <div class="guide-row"><span class="guide-icon">◎</span><div><b>查看</b><p>点击任意光点或标签，进入词条卡片；卡片里的近邻也能继续点击。</p></div></div>
+        <div class="guide-row"><span class="guide-icon">✦</span><div><b>漫游</b><p>按 <kbd>R</kbd> 随机跃迁，按 <kbd>/</kbd> 搜索中英文，按 <kbd>Esc</kbd> 收起。</p></div></div>
+      </div>
+
+      <div class="dialog-section">
+        <div class="section-eyebrow">TWO PROJECTIONS</div>
+        <h3>100 维，如何放进 3 维？</h3>
+        <div class="projection-explain">
+          <div><b>UMAP · 拓扑投影</b><p>优先保留高维空间里的局部邻域，让语义相近的词在 3D 中聚成星团。10 近邻保持率 <strong id="helpUmapRecall">28.2%</strong>（随机基线约 0.18%）。</p></div>
+          <div><b>PCA · 线性投影</b><p>沿方差最大的主轴直接投影。它更像一张“词义底图”，会压缩局部结构；前三个主轴解释了 <strong id="helpPcaVar">13.6%</strong> 的总方差。</p></div>
+        </div>
+      </div>
+
+      <div class="dialog-section data-note">
+        <div class="section-eyebrow">DATA / METHOD</div>
+        <p>词表为 <b id="helpTotal">5,500</b> 个考研英语大纲词（NPEE 词表 + ECDICT 高频补充），词向量为 GloVe wiki-gigaword 100d。原始向量去中心、移除第一主成分后，以 UMAP 投影到 3D，并在 100 维空间用 k-means 聚成 14 个语义星群。学习状态仅保存在你的浏览器本地。</p>
+        <p class="credits">ECDICT · MIT &nbsp;/&nbsp; GloVe · Public domain &nbsp;/&nbsp; UMAP-js · Apache-2.0</p>
+      </div>
+    </dialog>
+
+    <div id="loader" class="loader">
+      <div class="loader-orbit" aria-hidden="true">
+        <span class="lo lo1"></span><span class="lo lo2"></span><span class="lo lo3"></span><span class="lo-core"></span>
+      </div>
+      <div class="loader-brand">词穹</div>
+      <div class="loader-kicker">WORD COSMOS</div>
+      <div class="loader-status" id="loaderStatus">正在展开 5,500 个语义坐标</div>
+      <div class="loader-track"><span id="loaderBar"></span></div>
+      <div class="loader-meta">100 DIMENSIONS <i>→</i> 3D SPACE</div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

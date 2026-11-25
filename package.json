@@ -1,0 +1,42 @@
+{
+  "name": "word-cosmos",
+  "version": "1.0.0",
+  "description": "词穹 Word Cosmos — a navigable 3D semantic atlas of 5,500 Chinese postgraduate entrance exam vocabulary words.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "data": "node scripts/build-data.mjs",
+    "fetch-data": "bash scripts/fetch-data.sh",
+    "relabel": "node scripts/relabel.mjs",
+    "start": "vite preview --host 0.0.0.0 --port 4173"
+  },
+  "keywords": [
+    "3d",
+    "knowledge-graph",
+    "word-embeddings",
+    "glove",
+    "umap",
+    "kaoyan",
+    "chinese",
+    "vocabulary",
+    "threejs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "csv-parse": "^7.0.3",
+    "three": "^0.187.0",
+    "umap-js": "^1.4.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.8"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}
